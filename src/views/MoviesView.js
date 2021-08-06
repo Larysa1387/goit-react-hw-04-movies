@@ -15,23 +15,28 @@ export default function MoviesView() {
       return;
     }
     if (searchQuery) {
-      function searchMoviesFetch() {
-        moviesAPI
-          .fetchMoviesOnQuery(searchQuery)
-          .then(({ results }) => setMoviesArr(results));
-      }
       searchMoviesFetch();
+      // setSearchQuery("");
     }
+    // if (searchQuery) {
+    //   function searchMoviesFetch() {
+    //     moviesAPI
+    //       .fetchMoviesOnQuery(searchQuery)
+    //       .then(({ results }) => setMoviesArr(results));
+    //   }
+    //   searchMoviesFetch();
+    // }
     // history.push({ search: `query=${searchQuery}` });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const searchMoviesFetch = () => {
-  //   // setLoading(true);
-  //   moviesAPI
-  //     .fetchMoviesOnQuery(searchQuery)
-  //     .then(({ results }) => setMoviesArr(results));
-  // };
+  const searchMoviesFetch = () => {
+    // setLoading(true);
+    moviesAPI
+      .fetchMoviesOnQuery(searchQuery)
+      .then(({ results }) => setMoviesArr(results));
+  };
 
   const handleInputChange = (e) => {
     // history.push({
@@ -43,6 +48,7 @@ export default function MoviesView() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    searchMoviesFetch();
     history.push({
       ...location,
       /*pathname,*/ search: `query=${searchQuery}`,

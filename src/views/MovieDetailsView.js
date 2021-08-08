@@ -41,67 +41,75 @@ export default function MovieDetailsView() {
 
   return (
     <>
-      <button type="button" onClick={handleGoBack}>
+      <button className={s.btnGoback} type="button" onClick={handleGoBack}>
         Go back
       </button>
       {movie && (
-        <>
+        <div className={s.container}>
           <h1>
             {movie.title} ({(movie.release_date ?? "unknown").split("-")[0]})
           </h1>
-          <p>User score: {Math.round(movie.vote_average * 100) / 10}%</p>
-          <img
-            src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <h3>Overview</h3>
-          <p>{movie.overview}</p>
-          <h3>Genres</h3>
-          <ul>
-            {movie.genres.map(({ id, name }) => (
-              <li key={id}>{name}</li>
-            ))}
-          </ul>
-        </>
+          <div className={s.aline}>
+            <img
+              src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${movie.poster_path}`}
+              alt={movie.title}
+            />
+            <div className={s.movieInfo}>
+              <p>User score: {Math.round(movie.vote_average * 100) / 10}%</p>
+              <h3>Overview</h3>
+              <p>{movie.overview}</p>
+              <h3>Genres</h3>
+              <ul className={s.genresList}>
+                {movie.genres.map(({ id, name }) => (
+                  <li className={s.genresItem} key={id}>
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       )}
 
-      <NavLink
-        to={{
-          pathname: `${url}/cast`,
-          state: {
-            from: {
-              pathname: state?.from?.pathname ?? "/movies",
-              search: state?.from?.search ?? "",
+      <div className={s.container}>
+        <NavLink
+          to={{
+            pathname: `${url}/cast`,
+            state: {
+              from: {
+                pathname: state?.from?.pathname ?? "/movies",
+                search: state?.from?.search ?? "",
+              },
             },
-          },
-        }}
-        className={s.navLink}
-        activeClassName={s.activeLink}
-      >
-        Cast
-      </NavLink>
-      <NavLink
-        to={{
-          pathname: `${url}/reviews`,
-          state: {
-            from: {
-              pathname: state?.from?.pathname ?? "/movies",
-              search: state?.from?.search ?? "",
+          }}
+          className={s.navLink}
+          activeClassName={s.activeLink}
+        >
+          Cast
+        </NavLink>
+        <NavLink
+          to={{
+            pathname: `${url}/reviews`,
+            state: {
+              from: {
+                pathname: state?.from?.pathname ?? "/movies",
+                search: state?.from?.search ?? "",
+              },
             },
-          },
-        }}
-        className={s.navLink}
-        activeClassName={s.activeLink}
-      >
-        Reviews
-      </NavLink>
+          }}
+          className={s.navLink}
+          activeClassName={s.activeLink}
+        >
+          Reviews
+        </NavLink>
 
-      <Route path={`${path}/cast`}>
-        <CastView movieId={movieId} />
-      </Route>
-      <Route path={`${path}/reviews`}>
-        <ReviewsView movieId={movieId} />
-      </Route>
+        <Route path={`${path}/cast`}>
+          <CastView movieId={movieId} />
+        </Route>
+        <Route path={`${path}/reviews`}>
+          <ReviewsView movieId={movieId} />
+        </Route>
+      </div>
     </>
   );
 }

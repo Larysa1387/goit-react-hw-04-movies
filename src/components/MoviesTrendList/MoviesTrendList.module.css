@@ -39,4 +39,6 @@
 .trendLink {
   text-decoration: none;
   color: inherit;
+  padding: 10px;
+  width: 100%;
 }

@@ -1,16 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
+import s from "./MoviesTrendList.module.css";
 
 export default function MoviesTrendList({ movies }) {
-  const { pathname } = useLocation();
+  const location = useLocation();
   return (
-    <ul>
+    <ul className={s.trendMoviesList}>
       {movies.map(({ id, title }) => (
-        <li key={id}>
+        <li key={id} className={s.trendListItem}>
           {/* <Link to={`/movies/${id}`}>{title}</Link> */}
           <Link
+            className={s.trendLink}
             to={{
               pathname: `/movies/${id}`,
-              state: { from: pathname },
+              state: { from: location },
             }}
           >
             {title}

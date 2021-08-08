@@ -9,16 +9,17 @@ import MoviesView from "views/MoviesView";
 
 function App() {
   return (
-    <div className="App">
+    <>
       <AppBar />
-
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/movies/:movieId" component={MovieDetailsView} />
-        <Route path="/movies" component={MoviesView} />
-        {/* <Route path="/" className={s.navLink} component={404} /> */}
-      </Switch>
-    </div>
+      <section className="App">
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/movies/:movieId" component={MovieDetailsView} />
+          <Route path="/movies" component={MoviesView} />
+          {/* <Route path="/" className={s.navLink} component={404} /> */}
+        </Switch>
+      </section>
+    </>
   );
 }
 

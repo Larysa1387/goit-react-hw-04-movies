@@ -1,0 +1,13 @@
+.mainTitle {
+  background-color: #6a687a;
+  min-height: 7vh;
+  width: 85vmin;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(15px + 2vmin);
+  border-radius: 5px;
+  color: white;
+}

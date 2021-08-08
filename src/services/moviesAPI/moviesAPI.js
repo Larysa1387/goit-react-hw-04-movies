@@ -37,6 +37,20 @@ export function fetchMoviesOnQuery(searchQuery) {
   );
 }
 
+export function fetchMovieCast(movieId) {
+  return fetchRequest(
+    `${BASE_URL}/movie/${movieId}/credits?api_key=${KEY}&language=en-US`
+  );
+}
+
+export function fetchMovieReviews(movieId) {
+  return fetchRequest(
+    `${BASE_URL}/movie/${movieId}/reviews?api_key=${KEY}&language=en-US`
+  );
+}
+// https://api.themoviedb.org/3/movie/436969/reviews?api_key=b7646d842be1fcad85234a90ca8db2ea&language=en-US
+// https://api.themoviedb.org/3/movie/436969/credits?api_key=b7646d842be1fcad85234a90ca8db2ea&language=en-US
+
 // function fetchMovies() {
 //   return fetch(
 //     `${BASE_URL}/trending/movie/day?api_key=${KEY}&language=en-US&page=1&include_adult=false`
@@ -51,4 +65,4 @@ export function fetchMoviesOnQuery(searchQuery) {
 
 // export default api;
 
-// https://api.themoviedb.org/3/trending/all/day?api_key=b7646d842be1fcad85234a90ca8db2ea&query=horror&language=en-US&page=1&include_adult=false
+// https://api.themoviedb.org/3/trending/movie/day?api_key=b7646d842be1fcad85234a90ca8db2ea&language=en-US&page=1&include_adult=false

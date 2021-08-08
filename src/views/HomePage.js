@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import * as moviesApi from "services/moviesAPI/moviesAPI";
 import PageTitle from "components/PageTitle/PageTitle";
 import MoviesTrendList from "components/MoviesTrendList/MoviesTrendList";
+import s from "./views.module.css";
 
 export default function HomePage(params) {
   const [filmsStartList, setFilmsStartList] = useState([]);
@@ -22,7 +23,7 @@ export default function HomePage(params) {
   };
 
   return (
-    <div>
+    <div className={s.container}>
       <PageTitle text={"Trending films today"} />
       {filmsStartList && <MoviesTrendList movies={filmsStartList} />}
     </div>

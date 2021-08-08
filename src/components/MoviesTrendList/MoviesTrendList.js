@@ -15,7 +15,7 @@ export default function MoviesTrendList({ movies }) {
               state: { from: location },
             }}
           >
-            {title}
+            <p>{title}</p>
           </Link>
         </li>
       ))}

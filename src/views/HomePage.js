@@ -9,6 +9,7 @@ import s from "./views.module.css";
 
 export default function HomePage(params) {
   const [filmsStartList, setFilmsStartList] = useState([]);
+  const [error, setError] = useState("");
   // const location = useLocation();
 
   useEffect(() => {
@@ -16,14 +17,22 @@ export default function HomePage(params) {
   }, []);
 
   const searchMoviesFetch = () => {
-    moviesApi.fetchTrendingMovies().then(({ results }) => {
-      console.log(results);
-      setFilmsStartList(results);
-    });
+    moviesApi
+      .fetchTrendingMovies()
+      .then(({ results }) => {
+        // console.log(results);
+        setFilmsStartList(results);
+      })
+      .catch((error) => setError(error));
   };
 
   return (
     <div className={s.container}>
+      {error && (
+        <h1 style={{ display: "flex", justifyContent: "center" }}>
+          {error.message}
+        </h1>
+      )}
       <PageTitle text={"Trending films today"} />
       {filmsStartList && <MoviesTrendList movies={filmsStartList} />}
     </div>

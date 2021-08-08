@@ -4,17 +4,26 @@ import s from "./views.module.css";
 
 export default function CastView({ movieId }) {
   const [castArr, setCastArr] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    moviesApi.fetchMovieCast(movieId).then(({ cast }) => {
-      console.log(cast);
-      setCastArr(cast);
-    });
+    moviesApi
+      .fetchMovieCast(movieId)
+      .then(({ cast }) => {
+        setCastArr(cast);
+        setError("");
+      })
+      .catch((error) => setError(error));
   }, [movieId]);
 
   return (
     <>
-      {castArr !== 0 ? (
+      {error && (
+        <h1 style={{ display: "flex", justifyContent: "center" }}>
+          {error.message}
+        </h1>
+      )}
+      {castArr.length > 0 ? (
         <ul className={s.castList}>
           {castArr.map(({ name, id, profile_path, character }) => (
             <li className={s.castItem} key={id}>
@@ -26,13 +35,15 @@ export default function CastView({ movieId }) {
               ) : (
                 <p>No image</p>
               )}
-              <p>{name}</p>
-              <p>Character: {character}</p>
+              <p className={s.castInfo}>{name}</p>
+              {character && (
+                <p className={s.castInfo}>Character: {character}</p>
+              )}
             </li>
           ))}
         </ul>
       ) : (
-        <p>No cast info here</p>
+        <h3>No cast info here</h3>
       )}
     </>
   );

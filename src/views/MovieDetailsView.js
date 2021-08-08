@@ -15,17 +15,19 @@ import s from "./views.module.css";
 
 export default function MovieDetailsView() {
   const [movie, setMovie] = useState(null);
+  const [error, setError] = useState("");
   const { url, path } = useRouteMatch();
   const { movieId } = useParams();
   const { state } = useLocation();
   const history = useHistory();
-  console.log(path);
-  console.log(url);
-  console.log(useLocation());
+
   useEffect(() => {
-    moviesApi.fetchMovieDetailes(movieId).then((movie) => {
-      setMovie(movie);
-    });
+    moviesApi
+      .fetchMovieDetailes(movieId)
+      .then((movie) => {
+        setMovie(movie);
+      })
+      .catch((error) => setError(error));
   }, [movieId]);
 
   const handleGoBack = () => {
@@ -44,64 +46,77 @@ export default function MovieDetailsView() {
       <button className={s.btnGoback} type="button" onClick={handleGoBack}>
         Go back
       </button>
+      {error && (
+        <h1 style={{ display: "flex", justifyContent: "center" }}>
+          {error.message}
+        </h1>
+      )}
       {movie && (
         <div className={s.container}>
-          <h1>
+          <h1 className={s.filmTitle}>
             {movie.title} ({(movie.release_date ?? "unknown").split("-")[0]})
           </h1>
           <div className={s.aline}>
             <img
+              className={s.moviePoster}
               src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${movie.poster_path}`}
               alt={movie.title}
             />
             <div className={s.movieInfo}>
               <p>User score: {Math.round(movie.vote_average * 100) / 10}%</p>
-              <h3>Overview</h3>
+              <h3 className={s.infoTitle}>Overview</h3>
               <p>{movie.overview}</p>
-              <h3>Genres</h3>
-              <ul className={s.genresList}>
-                {movie.genres.map(({ id, name }) => (
-                  <li className={s.genresItem} key={id}>
-                    {name}
-                  </li>
-                ))}
-              </ul>
+              <h3 className={s.infoTitle}>Genres</h3>
+              {movie.genres.length > 0 ? (
+                <ul className={s.genresList}>
+                  {movie.genres.map(({ id, name }) => (
+                    <li className={s.genresItem} key={id}>
+                      {name}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No info</p>
+              )}
             </div>
           </div>
         </div>
       )}
 
       <div className={s.container}>
-        <NavLink
-          to={{
-            pathname: `${url}/cast`,
-            state: {
-              from: {
-                pathname: state?.from?.pathname ?? "/movies",
-                search: state?.from?.search ?? "",
+        <div className={s.navAline}>
+          <h3 className={s.infoTitle}>Additional Information</h3>
+          <NavLink
+            to={{
+              pathname: `${url}/cast`,
+              state: {
+                from: {
+                  pathname: state?.from?.pathname ?? "/movies",
+                  search: state?.from?.search ?? "",
+                },
               },
-            },
-          }}
-          className={s.navLink}
-          activeClassName={s.activeLink}
-        >
-          Cast
-        </NavLink>
-        <NavLink
-          to={{
-            pathname: `${url}/reviews`,
-            state: {
-              from: {
-                pathname: state?.from?.pathname ?? "/movies",
-                search: state?.from?.search ?? "",
+            }}
+            className={s.navLink}
+            activeClassName={s.activeLink}
+          >
+            Cast
+          </NavLink>
+          <NavLink
+            to={{
+              pathname: `${url}/reviews`,
+              state: {
+                from: {
+                  pathname: state?.from?.pathname ?? "/movies",
+                  search: state?.from?.search ?? "",
+                },
               },
-            },
-          }}
-          className={s.navLink}
-          activeClassName={s.activeLink}
-        >
-          Reviews
-        </NavLink>
+            }}
+            className={s.navLink}
+            activeClassName={s.activeLink}
+          >
+            Reviews
+          </NavLink>
+        </div>
 
         <Route path={`${path}/cast`}>
           <CastView movieId={movieId} />

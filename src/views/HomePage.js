@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useLocation } from "react-router-dom";
-// useLocation;
 // import PropTypes from 'prop-types';
 import * as moviesApi from "services/moviesAPI/moviesAPI";
 import PageTitle from "components/PageTitle/PageTitle";
